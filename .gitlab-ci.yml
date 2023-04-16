@@ -1,0 +1,40 @@
+stages:
+  - test
+  - build
+  - deploy
+  
+
+image: openjdk:17
+test:
+  stage: test
+  script:
+    - sudo sh ./gradlew test -p ${CI_PROJECT_DIR}/picker
+
+
+
+build:
+  stage: build
+  script:
+    - echo $CI_PROJECT_DIR
+    - echo "Compiling the code..."
+    - sudo docker-compose build
+    - echo "Test CI"
+  only:
+  - dev
+  - master
+  dependencies:
+    - test
+
+deploy:
+  stage: deploy
+  script:
+    - sudo docker-compose -f ${CI_PROJECT_DIR}/docker-compose.yml up -d
+    - sudo docker system prune -f
+    - echo "Compile complete."
+  only:
+    - dev
+    - master
+  dependencies:
+    - test
+    - build
+

@@ -1,0 +1,46 @@
+server:
+  port: 8083
+  servlet:
+    encoding:
+      force-response: true
+      charset: UTF-8
+
+spring:
+  main:
+    banner-mode: off
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/postgres
+    hikari:
+      maximum-pool-size: 6
+      minimum-idle: 2
+      connection-timeout: 10000
+  application:
+    name: telegram-bot
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL95Dialect
+        hbm2ddl:
+          auto: validate
+  mandatory-file-encoding: utf-8
+  liquibase:
+    enabled: true
+    change-log: 'classpath:db/changelog/changelog-master.yml'
+
+logging:
+  level:
+    root: WARN
+    ru: DEBUG
+
+bot:
+  token: 5943281615:AAHnaLaMY9UJvEnrU3HSOeOeS6Yj_og6WuU
+  name: LanguagePicker_bot

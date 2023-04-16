@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: changelog-init_tables.sql
+      relativeToChangelogFile: true
+  - include:
+      file: changelog-insert_data.sql
+      relativeToChangelogFile: true

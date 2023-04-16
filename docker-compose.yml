@@ -1,0 +1,48 @@
+services:
+  db-telegram:
+    image: postgres:14.6
+    container_name: telegram_db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=telegram
+    ports:
+      - 5433:5433
+    command: postgres -p 5433
+    volumes:
+      - ./db-adder:/var/lib/postgresql/data
+    networks:
+      - dev_language_network
+
+
+  telegram:
+    build:
+      context: telegram-bot
+      dockerfile: Dockerfile
+    container_name: cocktails_telegram
+    environment:
+      - DATABASE_HOST=db-telegram
+      - DATABASE_PORT=5433
+    ports:
+      - 8083:8083
+    depends_on:
+      - db-telegram
+    networks:
+      - dev_language_network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 22181:2181
+    networks:
+      - dev_language_network
+
+networks:
+  dev_cocktails_network:
+    external: true
+    name: dev_language_network
