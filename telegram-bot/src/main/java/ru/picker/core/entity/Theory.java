@@ -17,9 +17,9 @@ import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "theory")
-@NoArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
 public class Theory {
     @Id
     @Column(name = "id", nullable = false)
@@ -34,4 +34,9 @@ public class Theory {
     @Column(name = "info", nullable = false)
     @Type(type = "org.hibernate.type.TextType")
     private String info;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "chapter_id")
+    private Chapter chapter;
+
 }

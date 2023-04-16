@@ -78,14 +78,16 @@ public class Bot extends TelegramLongPollingCommandBot {
     private InlineKeyboardMarkup getButtons(List<String> names, String callBack) {
         InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
-        List<InlineKeyboardButton> button = new ArrayList<>();
         for (String name : names) {
             InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
             inlineKeyboardButton.setText(name);
             inlineKeyboardButton.setCallbackData(name + ";" + callBack);
-            button.add(inlineKeyboardButton);
+            buttons.add(List.of(inlineKeyboardButton));
         }
-        buttons.add(button);
+        InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
+        inlineKeyboardButton.setText("Назад");
+        inlineKeyboardButton.setCallbackData("back;back");
+        buttons.add(List.of(inlineKeyboardButton));
         keyboardMarkup.setKeyboard(buttons);
         return keyboardMarkup;
     }

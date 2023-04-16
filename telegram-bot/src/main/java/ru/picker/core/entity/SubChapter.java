@@ -1,10 +1,8 @@
 package ru.picker.core.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,9 +19,9 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "sub_chapter")
-@NoArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
 public class SubChapter {
     @Id
     @Column(name = "id", nullable = false)
@@ -34,8 +32,12 @@ public class SubChapter {
     @Column(name = "name", nullable = false, length = 100)
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "chapter_id")
+    private Chapter chapter;
+
+    @OneToMany(mappedBy = "subChapter", fetch = FetchType.EAGER)
     private Set<Task> tasks = new LinkedHashSet<>();
+
 
 }

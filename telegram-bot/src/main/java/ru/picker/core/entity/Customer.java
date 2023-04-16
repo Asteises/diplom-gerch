@@ -13,9 +13,9 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "customer")
-@NoArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
 public class Customer {
     @Id
     @Column(name = "id", nullable = false)
@@ -28,5 +28,6 @@ public class Customer {
     @NotNull
     @Column(name = "chat_id", nullable = false)
     private Long chatId;
+
 
 }
