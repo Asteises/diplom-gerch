@@ -33,12 +33,12 @@ public class Chapter {
     @Column(name = "name", nullable = false, length = 100)
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id")
     private Set<SubChapter> subChapters = new LinkedHashSet<>();
 
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id")
     private Set<Theory> theories = new LinkedHashSet<>();
 
