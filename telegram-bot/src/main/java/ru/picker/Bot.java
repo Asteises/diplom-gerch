@@ -1,9 +1,11 @@
-package ru.cocktails;
+package ru.picker;
 
 import lombok.SneakyThrows;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import ru.picker.commands.StartCommand;
+import ru.picker.core.service.CustomerService;
 
 public class Bot extends TelegramLongPollingCommandBot {
 
@@ -13,8 +15,10 @@ public class Bot extends TelegramLongPollingCommandBot {
 
 
     public Bot(String token,
-               String name) {
+               String name,
+               CustomerService customerService) {
         super();
+        register(new StartCommand("start", "Start command", customerService));
         this.name = name;
         this.token = token;
 
