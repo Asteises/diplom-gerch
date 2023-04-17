@@ -10,6 +10,7 @@ import ru.picker.Bot;
 import ru.picker.core.service.ChapterService;
 import ru.picker.core.service.CustomerService;
 import ru.picker.core.service.SubChapterService;
+import ru.picker.core.service.TaskService;
 
 @Configuration
 public class TelegramBotConfiguration {
@@ -20,8 +21,9 @@ public class TelegramBotConfiguration {
         @Value("${bot.token}") String token,
         CustomerService customerService,
         ChapterService chapterService,
-        SubChapterService subChapterService) {
-        return new Bot(token, name, customerService, chapterService, subChapterService);
+        SubChapterService subChapterService,
+        TaskService taskService) {
+        return new Bot(token, name, customerService, chapterService, subChapterService, taskService);
     }
 
     @Bean
