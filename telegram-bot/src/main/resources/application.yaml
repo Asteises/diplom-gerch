@@ -30,7 +30,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL95Dialect
         hbm2ddl:
-          auto: validate
+           auto: validate
   mandatory-file-encoding: utf-8
   liquibase:
     enabled: true
@@ -42,5 +42,5 @@ logging:
     ru: DEBUG
 
 bot:
-  token: 5943281615:AAHnaLaMY9UJvEnrU3HSOeOeS6Yj_og6WuU
-  name: LanguagePicker_bot
+  token: 6170968276:AAEvt_Sktp1H2-xIpDEEV2DIjy5MqYO1WsU
+  name: Lisa_IdealBot

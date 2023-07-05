@@ -15,12 +15,6 @@ public class CustomerService {
         customerRepository.save(customer);
     }
 
-    public Customer findById(Long id) {
-        return customerRepository.findByChatId(id).orElse(null);
-    }
 
-    public Customer findByName(String name) {
-        return customerRepository.findByName(name).orElse(null);
-    }
 
 }
