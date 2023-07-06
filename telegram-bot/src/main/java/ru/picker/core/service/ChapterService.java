@@ -39,9 +39,7 @@ public class ChapterService {
 
     public Chapter renewChapter(UUID id, IncomeChapterDto incomeChapterDto) {
         Chapter chapter = findById(id);
-        if (incomeChapterDto.getName() != null
-                && !incomeChapterDto.getName().isEmpty()
-                && !incomeChapterDto.getName().isBlank()) {
+        if (incomeChapterDto.getName() != null && !incomeChapterDto.getName().isBlank()) {
             chapter.setName(incomeChapterDto.getName());
             chapterRepository.save(chapter);
         }

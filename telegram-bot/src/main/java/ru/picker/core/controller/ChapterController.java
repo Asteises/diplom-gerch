@@ -25,8 +25,9 @@ public class ChapterController {
 
     @PostMapping("/add")
     public ResponseEntity<ChapterDto> addChapter(@RequestBody IncomeChapterDto incomeChapterDto) {
+        Chapter chapter = chapterService.add(incomeChapterDto);
         return ResponseEntity.ok(ChapterMapper.INSTANCE.map(
-                chapterService.add(incomeChapterDto),
+                chapter,
                 theoryService,
                 subChapterService));
     }
@@ -49,8 +50,9 @@ public class ChapterController {
     @PatchMapping("/patch/{id}")
     public ResponseEntity<ChapterDto> patchChapter(@PathVariable UUID id,
                                                    @RequestBody IncomeChapterDto incomeChapterDto) {
+        Chapter chapter = chapterService.renewChapter(id, incomeChapterDto);
         return ResponseEntity.ok(ChapterMapper.INSTANCE.map(
-                chapterService.renewChapter(id, incomeChapterDto),
+                chapter,
                 theoryService,
                 subChapterService));
     }
