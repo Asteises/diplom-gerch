@@ -37,6 +37,21 @@ public class ChapterService {
         return new ArrayList<>(chapter.getSubChapters());
     }
 
+    public Chapter renewChapter(UUID id, IncomeChapterDto incomeChapterDto) {
+        Chapter chapter = findById(id);
+        if (incomeChapterDto.getName() != null
+                && !incomeChapterDto.getName().isEmpty()
+                && !incomeChapterDto.getName().isBlank()) {
+            chapter.setName(incomeChapterDto.getName());
+            chapterRepository.save(chapter);
+        }
+        return chapter;
+    }
+
+    public void deleteChapter(UUID id) {
+        Chapter chapter = findById(id);
+        chapterRepository.delete(chapter);
+    }
 }
 
 

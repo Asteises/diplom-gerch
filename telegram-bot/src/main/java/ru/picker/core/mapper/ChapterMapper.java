@@ -11,6 +11,7 @@ import ru.picker.core.model.IncomeChapterDto;
 import ru.picker.core.service.SubChapterService;
 import ru.picker.core.service.TheoryService;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Mapper(componentModel = "spring",
@@ -27,4 +28,6 @@ public interface ChapterMapper {
     @Mapping(target = "subChapters", expression = "java(SubChapterMapper.INSTANCE.map(subChapterService.findAllByChapterId(chapter.getId())))")
     @Mapping(target = "theories", expression = "java(TheoryMapper.INSTANCE.map(theoryService.findAllByChapterId(chapter.getId())))")
     ChapterDto map(Chapter chapter, @Context TheoryService theoryService, @Context SubChapterService subChapterService);
+
+    Set<ChapterDto> map(Set<Chapter> chapters);
 }
