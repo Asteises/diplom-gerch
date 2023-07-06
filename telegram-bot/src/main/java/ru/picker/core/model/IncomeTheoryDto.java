@@ -2,17 +2,16 @@ package ru.picker.core.model;
 
 import lombok.*;
 
-import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class SubChapterDto {
+public class IncomeTheoryDto {
 
-    private String id;
     private String name;
-    private String chapterId;
-    private Set<TaskDto> tasks;
+    private String info;
+    private UUID chapterId;
 }

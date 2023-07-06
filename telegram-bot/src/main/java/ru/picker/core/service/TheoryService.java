@@ -6,6 +6,7 @@ import ru.picker.core.entity.Theory;
 import ru.picker.core.repository.TheoryRepository;
 
 import javax.ws.rs.NotFoundException;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -17,5 +18,9 @@ public class TheoryService {
     public Theory findById(UUID id) {
         return theoryRepository.findById(id).orElseThrow(() ->
                 new NotFoundException(String.format("Theory with ID: %s not found", id)));
+    }
+
+    public Set<Theory> findAllByChapterId(UUID chapterId) {
+        return theoryRepository.findAllByChapter_Id(chapterId);
     }
 }

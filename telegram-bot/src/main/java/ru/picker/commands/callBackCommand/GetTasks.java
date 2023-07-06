@@ -6,6 +6,8 @@ import ru.picker.core.entity.Task;
 import ru.picker.core.service.SubChapterService;
 import ru.picker.utils.TeleDto;
 
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 public class GetTasks implements TeleCommand {
 
@@ -18,7 +20,7 @@ public class GetTasks implements TeleCommand {
         teleDto.setList(service.getAllTasksBySubChapter(theme)
             .stream()
             .map(Task::getName)
-            .toList());
+            .collect(Collectors.toList()));
         return teleDto;
     }
 }
