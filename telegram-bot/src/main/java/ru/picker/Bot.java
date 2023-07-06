@@ -1,10 +1,5 @@
 package ru.picker;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import javax.swing.text.StyledEditorKit;
 import lombok.SneakyThrows;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -22,6 +17,12 @@ import ru.picker.core.service.CustomerService;
 import ru.picker.core.service.SubChapterService;
 import ru.picker.core.service.TaskService;
 import ru.picker.utils.TeleDto;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 public class Bot extends TelegramLongPollingCommandBot {
 
@@ -78,7 +79,7 @@ public class Bot extends TelegramLongPollingCommandBot {
                 taskMap.put(callbackQuery.getMessage().getChatId(), data[0]);
                 Task task = taskService.getTaskByName(data[0]);
                 message.setText("Вместо многоточия укажите ваши ответы." +
-                    " Каждый ответ на новой строке в соответствии с заданием\n\n" + task.getTest());
+                        " Каждый ответ на новой строке в соответствии с заданием\n\n" + task.getTest());
 
             }
 
@@ -92,16 +93,20 @@ public class Bot extends TelegramLongPollingCommandBot {
             } else {
                 message.setText("Задание выполнено с ошибками!\uD83D\uDE14");
             }
-            message.setReplyMarkup(getButtons(chapterService.getAllChapters().stream().map(Chapter::getName).toList(),
-                "subChapter"));
+            message.setReplyMarkup(getButtons(chapterService.getAllChapters().stream()
+                            .map(Chapter::getName)
+                            .collect(Collectors.toList()),
+                    "subChapter"));
             taskMap.put(update.getMessage().getChatId(), null);
             execute(message);
         } else {
             message.setText("Выберите раздел");
             message.setChatId(update.getMessage().getChatId());
             message.setReplyMarkup(
-                getButtons(chapterService.getAllChapters().stream().map(Chapter::getName).toList(),
-                    "subChapter"));
+                    getButtons(chapterService.getAllChapters().stream()
+                                    .map(Chapter::getName)
+                                    .collect(Collectors.toList()),
+                            "subChapter"));
             execute(message);
         }
     }

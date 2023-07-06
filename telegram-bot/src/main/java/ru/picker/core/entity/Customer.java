@@ -1,15 +1,17 @@
 package ru.picker.core.entity;
 
-import java.util.UUID;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "customer")
@@ -29,5 +31,18 @@ public class Customer {
     @Column(name = "chat_id", nullable = false)
     private Long chatId;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return id.equals(customer.id)
+                && Objects.equals(name, customer.name)
+                && Objects.equals(chatId, customer.chatId);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

@@ -3,9 +3,10 @@ package ru.picker.commands.callBackCommand;
 import lombok.RequiredArgsConstructor;
 import ru.picker.commands.TeleCommand;
 import ru.picker.core.entity.Chapter;
-import ru.picker.core.entity.SubChapter;
 import ru.picker.core.service.ChapterService;
 import ru.picker.utils.TeleDto;
+
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class GetChapters implements TeleCommand {
@@ -17,9 +18,9 @@ public class GetChapters implements TeleCommand {
         TeleDto teleDto = new TeleDto();
         teleDto.setCallBack("subChapter");
         teleDto.setList(service.getAllChapters()
-            .stream()
-            .map(Chapter::getName)
-            .toList());
+                .stream()
+                .map(Chapter::getName)
+                .collect(Collectors.toList()));
         return teleDto;
     }
 }

@@ -8,6 +8,8 @@ import ru.picker.core.service.ChapterService;
 import ru.picker.core.service.SubChapterService;
 import ru.picker.utils.TeleDto;
 
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 public class GetSubChapters implements TeleCommand {
 
@@ -20,7 +22,7 @@ public class GetSubChapters implements TeleCommand {
         teleDto.setList(service.getSubChaptersByTheme(theme)
             .stream()
             .map(SubChapter::getName)
-            .toList());
+            .collect(Collectors.toList()));
         return teleDto;
     }
 }
