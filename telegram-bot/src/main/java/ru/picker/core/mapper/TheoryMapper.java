@@ -17,7 +17,7 @@ import java.util.UUID;
 @Mapper(componentModel = "spring",
         injectionStrategy = InjectionStrategy.FIELD,
         imports = {UUID.class},
-        uses = {ChapterService.class, TheoryService.class, ChapterMapper.class})
+        uses = {ChapterService.class, TheoryService.class})
 public interface TheoryMapper {
 
     TheoryMapper INSTANCE = Mappers.getMapper(TheoryMapper.class);

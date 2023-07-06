@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.picker.core.entity.Chapter;
 import ru.picker.core.entity.SubChapter;
+import ru.picker.core.mapper.ChapterMapper;
+import ru.picker.core.model.IncomeChapterDto;
 import ru.picker.core.repository.ChapterRepository;
 
 import javax.ws.rs.NotFoundException;
@@ -14,6 +16,10 @@ import java.util.*;
 public class ChapterService {
 
     private final ChapterRepository chapterRepository;
+
+    public Chapter add(IncomeChapterDto incomeChapterDto) {
+        return chapterRepository.save(ChapterMapper.INSTANCE.map(incomeChapterDto));
+    }
 
     public Chapter findById(UUID id) {
         return chapterRepository.findById(id).orElseThrow(() ->
@@ -30,6 +36,7 @@ public class ChapterService {
 
         return new ArrayList<>(chapter.getSubChapters());
     }
+
 }
 
 
