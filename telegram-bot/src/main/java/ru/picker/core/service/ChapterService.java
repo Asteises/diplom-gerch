@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.picker.core.entity.Chapter;
 import ru.picker.core.entity.SubChapter;
+import ru.picker.core.entity.Theory;
 import ru.picker.core.mapper.ChapterMapper;
 import ru.picker.core.model.ChapterDto;
 import ru.picker.core.model.IncomeChapterDto;
@@ -25,16 +26,14 @@ public class ChapterService {
         chapterRepository.save(chapter);
         return ChapterMapper.INSTANCE.map(
                 chapter,
-                theoryService,
-                subChapterService);
+                this);
     }
 
-    public ChapterDto get(UUID id) {
+    public ChapterDto get(String id) {
         Chapter chapter = findById(id);
         return ChapterMapper.INSTANCE.map(
                 chapter,
-                theoryService,
-                subChapterService);
+                this);
     }
 
     public Set<Chapter> getAllChapters() {
@@ -48,7 +47,7 @@ public class ChapterService {
         return new ArrayList<>(chapter.getSubChapters());
     }
 
-    public ChapterDto renewChapter(UUID id, IncomeChapterDto incomeChapterDto) {
+    public ChapterDto renewChapter(String id, IncomeChapterDto incomeChapterDto) {
         Chapter chapter = findById(id);
         if (incomeChapterDto.getName() != null && !incomeChapterDto.getName().isBlank()) {
             chapter.setName(incomeChapterDto.getName());
@@ -56,19 +55,27 @@ public class ChapterService {
         }
         return ChapterMapper.INSTANCE.map(
                 chapter,
-                theoryService,
-                subChapterService);
+                this);
     }
 
-    public void deleteChapter(UUID id) {
+    public void deleteChapter(String id) {
         Chapter chapter = findById(id);
         chapterRepository.delete(chapter);
     }
 
-    public Chapter findById(UUID id) {
-        return chapterRepository.findById(id).orElseThrow(() ->
+    public Chapter findById(String id) {
+        return chapterRepository.findById(UUID.fromString(id)).orElseThrow(() ->
                 new NotFoundException(String.format("Chapter with ID: %s not found", id)));
     }
+
+    public Set<SubChapter> setSubChapters(Chapter chapter) {
+        return subChapterService.findAllByChapterId(chapter.getId().toString());
+    }
+
+    public Set<Theory> setTheories(Chapter chapter) {
+        return theoryService.findAllByChapterId(chapter.getId());
+    }
+
 }
 
 

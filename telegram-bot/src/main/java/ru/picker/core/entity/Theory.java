@@ -40,10 +40,7 @@ public class Theory {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Theory theory = (Theory) o;
-        return id.equals(theory.id)
-                && Objects.equals(name, theory.name)
-                && Objects.equals(info, theory.info)
-                && Objects.equals(chapter, theory.chapter);
+        return id.equals(theory.id);
     }
 
     @Override

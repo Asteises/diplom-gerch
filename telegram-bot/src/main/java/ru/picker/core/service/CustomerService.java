@@ -6,7 +6,6 @@ import ru.picker.core.entity.Customer;
 import ru.picker.core.repository.CustomerRepository;
 
 import javax.ws.rs.NotFoundException;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor

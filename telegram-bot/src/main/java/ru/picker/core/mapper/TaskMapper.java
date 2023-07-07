@@ -24,8 +24,7 @@ public interface TaskMapper {
     TaskMapper INSTANCE = Mappers.getMapper(TaskMapper.class);
 
     @Mapping(target = "id", expression = "java(UUID.randomUUID())")
-    @Mapping(target = "subChapter", expression = "java(subChapterService.findById(incomeTaskDto.getSubChapterId()))")
-    Task map(IncomeTaskDto incomeTaskDto, @Context TaskService taskService, @Context SubChapterService subChapterService) throws NotFoundException;
+    Task map(IncomeTaskDto incomeTaskDto, @Context TaskService taskService) throws NotFoundException;
 
     @Mapping(target = "subChapterId", source = "task.subChapter.id")
     TaskDto map(Task task);

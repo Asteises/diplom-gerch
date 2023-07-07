@@ -1,18 +1,16 @@
 package ru.picker.core.model;
 
-import lombok.*;
+import lombok.Data;
+import ru.picker.core.entity.SubChapter;
 
-import java.util.UUID;
+import javax.validation.constraints.NotNull;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
+@Data
 public class IncomeTaskDto {
 
     private String name;
     private String test;
     private String answers;
-    private UUID subChapterId;
+    @NotNull
+    private SubChapter subChapter;
 }

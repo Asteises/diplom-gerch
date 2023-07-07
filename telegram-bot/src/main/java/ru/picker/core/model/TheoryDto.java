@@ -1,16 +1,9 @@
 package ru.picker.core.model;
 
-import lombok.*;
+import lombok.Data;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
-public class TheoryDto {
+@Data
+public class TheoryDto extends IncomeTheoryDto {
 
     private String id;
-    private String name;
-    private String info;
-    private String chapterId;
 }

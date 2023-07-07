@@ -2,6 +2,7 @@ package ru.picker.core.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 import ru.picker.core.entity.SubChapter;
 import ru.picker.core.mapper.SubChapterMapper;
@@ -25,7 +26,7 @@ public class SubChapterController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SubChapterDto> getById(@PathVariable UUID id) {
+    public ResponseEntity<SubChapterDto> getById(@PathVariable String id) {
         SubChapterDto subChapterDto = subChapterService.get(id);
         return ResponseEntity.ok(subChapterDto);
     }
@@ -36,15 +37,15 @@ public class SubChapterController {
         return ResponseEntity.ok(SubChapterMapper.INSTANCE.map(subChapters));
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<SubChapterDto> patchSubChapter(@PathVariable UUID id,
+    @PutMapping("/{id}")
+    public ResponseEntity<SubChapterDto> putSubChapter(@PathVariable String id,
                                                          @RequestBody IncomeSubChapterDto incomeSubChapterDto) {
         SubChapterDto subChapterDto = subChapterService.renewSubChapter(id, incomeSubChapterDto);
         return ResponseEntity.ok(subChapterDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteSubChapter(@PathVariable UUID id) {
+    public ResponseEntity<String> deleteSubChapter(@PathVariable String id) {
         subChapterService.deleteSubChapter(id);
         return ResponseEntity.ok(String.format("SubChapter with ID: %s deleted", id));
     }

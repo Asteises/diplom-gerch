@@ -1,18 +1,13 @@
 package ru.picker.core.model;
 
-import lombok.*;
+import lombok.Data;
 
 import java.util.Set;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
-public class SubChapterDto {
+@Data
+public class SubChapterDto extends IncomeSubChapterDto {
 
     private String id;
-    private String name;
     private String chapterId;
     private Set<TaskDto> tasks;
 }

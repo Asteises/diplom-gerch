@@ -1,6 +1,5 @@
 package ru.picker.core.controller;
 
-import com.google.common.annotations.GwtCompatible;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +22,7 @@ public class TaskController {
     }
 
     @GetMapping("/{}")
-    public ResponseEntity<TaskDto> getTask(@PathVariable UUID id) {
+    public ResponseEntity<TaskDto> getTask(@PathVariable String id) {
         return ResponseEntity.ok(taskService.get(id));
     }
 }

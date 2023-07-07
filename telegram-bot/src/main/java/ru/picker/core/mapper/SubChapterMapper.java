@@ -19,14 +19,13 @@ import java.util.UUID;
 @Mapper(componentModel = "spring",
         injectionStrategy = InjectionStrategy.FIELD,
         imports = {UUID.class},
-        uses = {ChapterService.class, TaskService.class})
+        uses = {TaskService.class})
 public interface SubChapterMapper {
 
     SubChapterMapper INSTANCE = Mappers.getMapper(SubChapterMapper.class);
 
     @Mapping(target = "id", expression = "java(UUID.randomUUID())")
-    @Mapping(target = "chapter", expression = "java(chapterService.findById(incomeSubChapterDto.getChapterId()))")
-    SubChapter map(IncomeSubChapterDto incomeSubChapterDto, @Context ChapterService chapterService) throws NotFoundException;
+    SubChapter map(IncomeSubChapterDto incomeSubChapterDto) throws NotFoundException;
 
     @Mapping(target = "chapterId", expression = "java(subChapter.getChapter().getId().toString())")
     @Mapping(target = "tasks", expression = "java(TaskMapper.INSTANCE.map(taskService.findAllBySubChapterId(subChapter.getId())))")

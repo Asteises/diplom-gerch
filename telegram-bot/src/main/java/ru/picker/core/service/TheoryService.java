@@ -15,8 +15,8 @@ public class TheoryService {
 
     private final TheoryRepository theoryRepository;
 
-    public Theory findById(UUID id) {
-        return theoryRepository.findById(id).orElseThrow(() ->
+    public Theory findById(String id) {
+        return theoryRepository.findById(UUID.fromString(id)).orElseThrow(() ->
                 new NotFoundException(String.format("Theory with ID: %s not found", id)));
     }
 

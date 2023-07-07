@@ -1,17 +1,9 @@
 package ru.picker.core.model;
 
-import lombok.*;
+import lombok.Data;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
-public class TaskDto {
+@Data
+public class TaskDto extends IncomeTaskDto {
 
     private String id;
-    private String name;
-    private String test;
-    private String answers;
-    private String subChapterId;
 }

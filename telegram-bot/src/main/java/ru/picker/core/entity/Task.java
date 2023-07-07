@@ -48,11 +48,7 @@ public class Task {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return id.equals(task.id)
-                && Objects.equals(name, task.name)
-                && Objects.equals(test, task.test)
-                && Objects.equals(answers, task.answers)
-                && Objects.equals(subChapter, task.subChapter);
+        return id.equals(task.id);
     }
 
     @Override

@@ -36,9 +36,7 @@ public class Customer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Customer customer = (Customer) o;
-        return id.equals(customer.id)
-                && Objects.equals(name, customer.name)
-                && Objects.equals(chatId, customer.chatId);
+        return id.equals(customer.id);
     }
 
     @Override

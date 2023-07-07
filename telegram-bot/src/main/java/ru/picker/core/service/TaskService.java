@@ -17,24 +17,22 @@ import java.util.UUID;
 public class TaskService {
 
     private final TaskRepository taskRepository;
-    private final SubChapterService subChapterService;
 
     public TaskDto add(IncomeTaskDto incomeTaskDto) {
         Task task = TaskMapper.INSTANCE.map(
                 incomeTaskDto,
-                this,
-                subChapterService);
+                this);
         taskRepository.save(task);
         return TaskMapper.INSTANCE.map(task);
     }
 
-    public TaskDto get(UUID id) {
+    public TaskDto get(String id) {
         Task task = findById(id);
         return TaskMapper.INSTANCE.map(task);
     }
 
-    public Set<Task> findAllBySubChapterId(UUID subCharterId) {
-        return taskRepository.findAllBySubChapter_Id(subCharterId);
+    public Set<Task> findAllBySubChapterId(String subCharterId) {
+        return taskRepository.findAllBySubChapter_Id(UUID.fromString(subCharterId));
     }
 
     public Task getTaskByName(String name) {
@@ -42,8 +40,8 @@ public class TaskService {
                 new NotFoundException(String.format("Task with NAME: %s not found", name)));
     }
 
-    public Task findById(UUID id) {
-        return taskRepository.findById(id).orElseThrow(() ->
+    public Task findById(String id) {
+        return taskRepository.findById(UUID.fromString(id)).orElseThrow(() ->
                 new NotFoundException(String.format("Task with ID: %s not found", id)));
     }
 

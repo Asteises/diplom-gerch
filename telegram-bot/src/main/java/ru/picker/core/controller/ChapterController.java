@@ -25,7 +25,7 @@ public class ChapterController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ChapterDto> getChapterById(@PathVariable UUID id) {
+    public ResponseEntity<ChapterDto> getChapterById(@PathVariable String id) {
         return ResponseEntity.ok(chapterService.get(id));
     }
 
@@ -35,14 +35,14 @@ public class ChapterController {
         return ResponseEntity.ok(ChapterMapper.INSTANCE.map(chapters));
     }
 
-    @PatchMapping("/patch/{id}")
-    public ResponseEntity<ChapterDto> patchChapter(@PathVariable UUID id,
+    @PutMapping("/put/{id}")
+    public ResponseEntity<ChapterDto> putChapter(@PathVariable String id,
                                                    @RequestBody IncomeChapterDto incomeChapterDto) {
         return ResponseEntity.ok(chapterService.renewChapter(id, incomeChapterDto));
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteChapter(@PathVariable UUID id) {
+    public ResponseEntity<String> deleteChapter(@PathVariable String id) {
         chapterService.deleteChapter(id);
         return ResponseEntity.ok(String.format("Chapter with ID: %s deleted", id));
     }
