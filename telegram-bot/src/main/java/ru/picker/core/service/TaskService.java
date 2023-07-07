@@ -3,6 +3,9 @@ package ru.picker.core.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.picker.core.entity.Task;
+import ru.picker.core.mapper.TaskMapper;
+import ru.picker.core.model.IncomeTaskDto;
+import ru.picker.core.model.TaskDto;
 import ru.picker.core.repository.TaskRepository;
 
 import javax.ws.rs.NotFoundException;
@@ -14,10 +17,20 @@ import java.util.UUID;
 public class TaskService {
 
     private final TaskRepository taskRepository;
+    private final SubChapterService subChapterService;
 
-    public Task findById(UUID id) {
-        return taskRepository.findById(id).orElseThrow(() ->
-                new NotFoundException(String.format("Task with ID: %s not found", id)));
+    public TaskDto add(IncomeTaskDto incomeTaskDto) {
+        Task task = TaskMapper.INSTANCE.map(
+                incomeTaskDto,
+                this,
+                subChapterService);
+        taskRepository.save(task);
+        return TaskMapper.INSTANCE.map(task);
+    }
+
+    public TaskDto get(UUID id) {
+        Task task = findById(id);
+        return TaskMapper.INSTANCE.map(task);
     }
 
     public Set<Task> findAllBySubChapterId(UUID subCharterId) {
@@ -28,5 +41,11 @@ public class TaskService {
         return taskRepository.findTaskByName(name).orElseThrow(() ->
                 new NotFoundException(String.format("Task with NAME: %s not found", name)));
     }
+
+    public Task findById(UUID id) {
+        return taskRepository.findById(id).orElseThrow(() ->
+                new NotFoundException(String.format("Task with ID: %s not found", id)));
+    }
+
 }
 

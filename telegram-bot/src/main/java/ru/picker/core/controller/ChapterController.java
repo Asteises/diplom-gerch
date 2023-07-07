@@ -8,8 +8,6 @@ import ru.picker.core.mapper.ChapterMapper;
 import ru.picker.core.model.ChapterDto;
 import ru.picker.core.model.IncomeChapterDto;
 import ru.picker.core.service.ChapterService;
-import ru.picker.core.service.SubChapterService;
-import ru.picker.core.service.TheoryService;
 
 import java.util.Set;
 import java.util.UUID;
@@ -19,26 +17,16 @@ import java.util.UUID;
 @RequestMapping("api/bot/chapter")
 public class ChapterController {
 
-    private final SubChapterService subChapterService;
     private final ChapterService chapterService;
-    private final TheoryService theoryService;
 
     @PostMapping("/add")
     public ResponseEntity<ChapterDto> addChapter(@RequestBody IncomeChapterDto incomeChapterDto) {
-        Chapter chapter = chapterService.add(incomeChapterDto);
-        return ResponseEntity.ok(ChapterMapper.INSTANCE.map(
-                chapter,
-                theoryService,
-                subChapterService));
+        return ResponseEntity.ok(chapterService.add(incomeChapterDto));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ChapterDto> getChapterById(@PathVariable UUID id) {
-        Chapter chapter = chapterService.findById(id);
-        return ResponseEntity.ok(ChapterMapper.INSTANCE.map(
-                chapter,
-                theoryService,
-                subChapterService));
+        return ResponseEntity.ok(chapterService.get(id));
     }
 
     @GetMapping("/all")
@@ -50,11 +38,7 @@ public class ChapterController {
     @PatchMapping("/patch/{id}")
     public ResponseEntity<ChapterDto> patchChapter(@PathVariable UUID id,
                                                    @RequestBody IncomeChapterDto incomeChapterDto) {
-        Chapter chapter = chapterService.renewChapter(id, incomeChapterDto);
-        return ResponseEntity.ok(ChapterMapper.INSTANCE.map(
-                chapter,
-                theoryService,
-                subChapterService));
+        return ResponseEntity.ok(chapterService.renewChapter(id, incomeChapterDto));
     }
 
     @DeleteMapping("/delete/{id}")

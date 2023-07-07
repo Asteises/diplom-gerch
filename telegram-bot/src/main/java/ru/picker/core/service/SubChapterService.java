@@ -24,15 +24,19 @@ public class SubChapterService {
     private final ChapterService chapterService;
     private final TaskService taskService;
 
-    public SubChapter add(IncomeSubChapterDto incomeSubChapterDto) {
-        return subChapterRepository.save(SubChapterMapper.INSTANCE.map(
+    public SubChapterDto add(IncomeSubChapterDto incomeSubChapterDto) {
+        SubChapter subChapter = SubChapterMapper.INSTANCE.map(
                 incomeSubChapterDto,
-                chapterService));
+                chapterService);
+
+        return SubChapterMapper.INSTANCE.map(
+                subChapterRepository.save(subChapter),
+                taskService);
     }
 
-    public SubChapter findById(UUID id) {
-        return subChapterRepository.findById(id).orElseThrow(() ->
-                new NotFoundException(String.format("SubChapter with ID: %s not found", id)));
+    public SubChapterDto get(UUID id) {
+        SubChapter subChapter = findById(id);
+        return SubChapterMapper.INSTANCE.map(subChapter, taskService);
     }
 
     public Set<SubChapter> findAllByChapterId(UUID chapterId) {
@@ -66,5 +70,11 @@ public class SubChapterService {
     public void deleteSubChapter(UUID id) {
         SubChapter subChapter = findById(id);
         subChapterRepository.delete(subChapter);
+    }
+
+    public SubChapter findById(UUID id) {
+
+        return subChapterRepository.findById(id).orElseThrow(() ->
+                new NotFoundException(String.format("SubChapter with ID: %s not found", id)));
     }
 }

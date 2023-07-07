@@ -8,7 +8,6 @@ import ru.picker.core.mapper.SubChapterMapper;
 import ru.picker.core.model.IncomeSubChapterDto;
 import ru.picker.core.model.SubChapterDto;
 import ru.picker.core.service.SubChapterService;
-import ru.picker.core.service.TaskService;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,18 +18,16 @@ import java.util.UUID;
 public class SubChapterController {
 
     private final SubChapterService subChapterService;
-    private final TaskService taskService;
 
     @PostMapping("/add")
     public ResponseEntity<SubChapterDto> addSubChapter(@RequestBody IncomeSubChapterDto incomeSubChapterDto) {
-        SubChapter subChapter = subChapterService.add(incomeSubChapterDto);
-        return ResponseEntity.ok(SubChapterMapper.INSTANCE.map(subChapter, taskService));
+        return ResponseEntity.ok(subChapterService.add(incomeSubChapterDto));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<SubChapterDto> getById(@PathVariable UUID id) {
-        SubChapter subChapter = subChapterService.findById(id);
-        return ResponseEntity.ok(SubChapterMapper.INSTANCE.map(subChapter, taskService));
+        SubChapterDto subChapterDto = subChapterService.get(id);
+        return ResponseEntity.ok(subChapterDto);
     }
 
     @GetMapping("/all")
