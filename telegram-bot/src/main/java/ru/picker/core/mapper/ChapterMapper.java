@@ -8,16 +8,15 @@ import org.mapstruct.factory.Mappers;
 import ru.picker.core.entity.Chapter;
 import ru.picker.core.model.ChapterDisplayDto;
 import ru.picker.core.model.IncomeChapterDto;
-import ru.picker.core.service.ChapterService;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 @Mapper(componentModel = "spring",
         injectionStrategy = InjectionStrategy.FIELD,
         collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED,
-        imports = {UUID.class},
-        uses = {ChapterService.class})
+        imports = {UUID.class})
 public interface ChapterMapper {
 
     ChapterMapper INSTANCE = Mappers.getMapper(ChapterMapper.class);
@@ -28,4 +27,6 @@ public interface ChapterMapper {
     ChapterDisplayDto map(Chapter chapter);
 
     Set<ChapterDisplayDto> map(Set<Chapter> chapters);
+
+    List<ChapterDisplayDto> map(List<Chapter> chapters);
 }

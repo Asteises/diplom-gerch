@@ -4,22 +4,21 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.picker.core.entity.Chapter;
 import ru.picker.core.entity.SubChapter;
-import ru.picker.core.entity.Theory;
 import ru.picker.core.mapper.ChapterMapper;
 import ru.picker.core.model.ChapterDisplayDto;
 import ru.picker.core.model.IncomeChapterDto;
 import ru.picker.core.repository.ChapterRepository;
 
 import javax.ws.rs.NotFoundException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class ChapterService {
 
     private final ChapterRepository chapterRepository;
-    private final SubChapterService subChapterService;
-    private final TheoryService theoryService;
 
     public ChapterDisplayDto add(IncomeChapterDto incomeChapterDto) {
         Chapter chapter = ChapterMapper.INSTANCE.map(incomeChapterDto);
@@ -32,8 +31,8 @@ public class ChapterService {
         return ChapterMapper.INSTANCE.map(chapter);
     }
 
-    public Set<Chapter> getAllChapters() {
-        return new HashSet<>(chapterRepository.findAll());
+    public List<Chapter> getAllChapters() {
+        return chapterRepository.findAll();
     }
 
     public List<SubChapter> getSubChaptersByTheme(String theme) {
@@ -54,20 +53,14 @@ public class ChapterService {
 
     public void deleteChapter(String id) {
         Chapter chapter = findById(id);
-        chapterRepository.delete(chapter);
+        if (chapter != null) {
+            chapterRepository.delete(chapter);
+        }
     }
 
     public Chapter findById(String id) {
         return chapterRepository.findById(UUID.fromString(id)).orElseThrow(() ->
                 new NotFoundException(String.format("Chapter with ID: %s not found", id)));
-    }
-
-    public Set<SubChapter> setSubChapters(Chapter chapter) {
-        return subChapterService.findAllByChapterId(chapter.getId().toString());
-    }
-
-    public Set<Theory> setTheories(Chapter chapter) {
-        return theoryService.findAllByChapterId(chapter.getId());
     }
 
 }

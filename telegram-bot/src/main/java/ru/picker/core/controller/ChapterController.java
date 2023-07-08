@@ -1,7 +1,6 @@
 package ru.picker.core.controller;
 
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.picker.core.entity.Chapter;
@@ -10,7 +9,7 @@ import ru.picker.core.model.ChapterDisplayDto;
 import ru.picker.core.model.IncomeChapterDto;
 import ru.picker.core.service.ChapterService;
 
-import java.util.Set;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,8 +29,8 @@ public class ChapterController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Set<ChapterDisplayDto>> getAllChapters() {
-        Set<Chapter> chapters = chapterService.getAllChapters();
+    public ResponseEntity<List<ChapterDisplayDto>> getAllChapters() {
+        List<Chapter> chapters = chapterService.getAllChapters();
         return ResponseEntity.ok(ChapterMapper.INSTANCE.map(chapters));
     }
 

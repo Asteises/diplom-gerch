@@ -20,19 +20,16 @@ import java.util.UUID;
 public class SubChapterService {
 
     private final SubChapterRepository subChapterRepository;
-    private final TaskService taskService;
 
     public SubChapterDisplayDto add(IncomeSubChapterDto incomeSubChapterDto) {
         SubChapter subChapter = SubChapterMapper.INSTANCE.map(incomeSubChapterDto);
 
-        return SubChapterMapper.INSTANCE.map(
-                subChapterRepository.save(subChapter),
-                taskService);
+        return SubChapterMapper.INSTANCE.map(subChapterRepository.save(subChapter));
     }
 
     public SubChapterDisplayDto get(String id) {
         SubChapter subChapter = findById(id);
-        return SubChapterMapper.INSTANCE.map(subChapter, taskService);
+        return SubChapterMapper.INSTANCE.map(subChapter);
     }
 
     public Set<SubChapter> findAllByChapterId(String chapterId) {
@@ -59,12 +56,14 @@ public class SubChapterService {
             subChapter.setChapter(incomeSubChapterDto.getChapter());
         }
         subChapterRepository.save(subChapter);
-        return SubChapterMapper.INSTANCE.map(subChapter, taskService);
+        return SubChapterMapper.INSTANCE.map(subChapter);
     }
 
     public void deleteSubChapter(String id) {
         SubChapter subChapter = findById(id);
-        subChapterRepository.delete(subChapter);
+        if (subChapter != null) {
+            subChapterRepository.delete(subChapter);
+        }
     }
 
     public SubChapter findById(String id) {

@@ -1,11 +1,12 @@
 package ru.picker.core.model;
 
 import lombok.Data;
+import ru.picker.core.entity.Chapter;
 
 @Data
 public class IncomeTheoryDto {
 
     private String name;
     private String info;
-    private String chapterId;
+    private Chapter chapter;
 }
