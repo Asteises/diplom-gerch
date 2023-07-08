@@ -6,7 +6,7 @@ import ru.picker.core.entity.SubChapter;
 import ru.picker.core.entity.Task;
 import ru.picker.core.mapper.SubChapterMapper;
 import ru.picker.core.model.IncomeSubChapterDto;
-import ru.picker.core.model.SubChapterDto;
+import ru.picker.core.model.SubChapterDisplayDto;
 import ru.picker.core.repository.SubChapterRepository;
 
 import javax.ws.rs.NotFoundException;
@@ -22,7 +22,7 @@ public class SubChapterService {
     private final SubChapterRepository subChapterRepository;
     private final TaskService taskService;
 
-    public SubChapterDto add(IncomeSubChapterDto incomeSubChapterDto) {
+    public SubChapterDisplayDto add(IncomeSubChapterDto incomeSubChapterDto) {
         SubChapter subChapter = SubChapterMapper.INSTANCE.map(incomeSubChapterDto);
 
         return SubChapterMapper.INSTANCE.map(
@@ -30,7 +30,7 @@ public class SubChapterService {
                 taskService);
     }
 
-    public SubChapterDto get(String id) {
+    public SubChapterDisplayDto get(String id) {
         SubChapter subChapter = findById(id);
         return SubChapterMapper.INSTANCE.map(subChapter, taskService);
     }
@@ -50,7 +50,7 @@ public class SubChapterService {
         return subChapterRepository.findAll();
     }
 
-    public SubChapterDto renewSubChapter(String id, IncomeSubChapterDto incomeSubChapterDto) {
+    public SubChapterDisplayDto renewSubChapter(String id, IncomeSubChapterDto incomeSubChapterDto) {
         SubChapter subChapter = findById(id);
         if (incomeSubChapterDto.getName() != null && !incomeSubChapterDto.getName().isBlank()) {
             subChapter.setName(incomeSubChapterDto.getName());

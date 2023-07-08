@@ -1,13 +1,10 @@
 package ru.picker.core.mapper;
 
-import org.mapstruct.Context;
-import org.mapstruct.InjectionStrategy;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 import ru.picker.core.entity.Task;
 import ru.picker.core.model.IncomeTaskDto;
-import ru.picker.core.model.TaskDto;
+import ru.picker.core.model.TaskDisplayDto;
 import ru.picker.core.service.SubChapterService;
 import ru.picker.core.service.TaskService;
 
@@ -17,6 +14,7 @@ import java.util.UUID;
 
 @Mapper(componentModel = "spring",
         injectionStrategy = InjectionStrategy.FIELD,
+        collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED,
         imports = {UUID.class},
         uses = {TaskService.class, SubChapterService.class})
 public interface TaskMapper {
@@ -26,8 +24,8 @@ public interface TaskMapper {
     @Mapping(target = "id", expression = "java(UUID.randomUUID())")
     Task map(IncomeTaskDto incomeTaskDto, @Context TaskService taskService) throws NotFoundException;
 
-    @Mapping(target = "subChapterId", source = "task.subChapter.id")
-    TaskDto map(Task task);
+    @Mapping(target = "subChapterId", source = "subChapter.id")
+    TaskDisplayDto map(Task task);
 
-    Set<TaskDto> map(Set<Task> tasks);
+    Set<TaskDisplayDto> map(Set<Task> tasks);
 }

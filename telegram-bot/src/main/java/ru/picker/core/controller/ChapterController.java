@@ -1,16 +1,16 @@
 package ru.picker.core.controller;
 
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.picker.core.entity.Chapter;
 import ru.picker.core.mapper.ChapterMapper;
-import ru.picker.core.model.ChapterDto;
+import ru.picker.core.model.ChapterDisplayDto;
 import ru.picker.core.model.IncomeChapterDto;
 import ru.picker.core.service.ChapterService;
 
 import java.util.Set;
-import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,24 +20,24 @@ public class ChapterController {
     private final ChapterService chapterService;
 
     @PostMapping("/add")
-    public ResponseEntity<ChapterDto> addChapter(@RequestBody IncomeChapterDto incomeChapterDto) {
+    public ResponseEntity<ChapterDisplayDto> addChapter(@RequestBody IncomeChapterDto incomeChapterDto) {
         return ResponseEntity.ok(chapterService.add(incomeChapterDto));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ChapterDto> getChapterById(@PathVariable String id) {
+    public ResponseEntity<ChapterDisplayDto> getChapterById(@PathVariable String id) {
         return ResponseEntity.ok(chapterService.get(id));
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Set<ChapterDto>> getAllChapters() {
+    public ResponseEntity<Set<ChapterDisplayDto>> getAllChapters() {
         Set<Chapter> chapters = chapterService.getAllChapters();
         return ResponseEntity.ok(ChapterMapper.INSTANCE.map(chapters));
     }
 
     @PutMapping("/put/{id}")
-    public ResponseEntity<ChapterDto> putChapter(@PathVariable String id,
-                                                   @RequestBody IncomeChapterDto incomeChapterDto) {
+    public ResponseEntity<ChapterDisplayDto> putChapter(@PathVariable String id,
+                                                        @RequestBody IncomeChapterDto incomeChapterDto) {
         return ResponseEntity.ok(chapterService.renewChapter(id, incomeChapterDto));
     }
 

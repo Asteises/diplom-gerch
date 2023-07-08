@@ -6,7 +6,7 @@ import ru.picker.core.entity.Chapter;
 import ru.picker.core.entity.SubChapter;
 import ru.picker.core.entity.Theory;
 import ru.picker.core.mapper.ChapterMapper;
-import ru.picker.core.model.ChapterDto;
+import ru.picker.core.model.ChapterDisplayDto;
 import ru.picker.core.model.IncomeChapterDto;
 import ru.picker.core.repository.ChapterRepository;
 
@@ -21,19 +21,15 @@ public class ChapterService {
     private final SubChapterService subChapterService;
     private final TheoryService theoryService;
 
-    public ChapterDto add(IncomeChapterDto incomeChapterDto) {
+    public ChapterDisplayDto add(IncomeChapterDto incomeChapterDto) {
         Chapter chapter = ChapterMapper.INSTANCE.map(incomeChapterDto);
         chapterRepository.save(chapter);
-        return ChapterMapper.INSTANCE.map(
-                chapter,
-                this);
+        return ChapterMapper.INSTANCE.map(chapter);
     }
 
-    public ChapterDto get(String id) {
+    public ChapterDisplayDto get(String id) {
         Chapter chapter = findById(id);
-        return ChapterMapper.INSTANCE.map(
-                chapter,
-                this);
+        return ChapterMapper.INSTANCE.map(chapter);
     }
 
     public Set<Chapter> getAllChapters() {
@@ -47,15 +43,13 @@ public class ChapterService {
         return new ArrayList<>(chapter.getSubChapters());
     }
 
-    public ChapterDto renewChapter(String id, IncomeChapterDto incomeChapterDto) {
+    public ChapterDisplayDto renewChapter(String id, IncomeChapterDto incomeChapterDto) {
         Chapter chapter = findById(id);
         if (incomeChapterDto.getName() != null && !incomeChapterDto.getName().isBlank()) {
             chapter.setName(incomeChapterDto.getName());
             chapterRepository.save(chapter);
         }
-        return ChapterMapper.INSTANCE.map(
-                chapter,
-                this);
+        return ChapterMapper.INSTANCE.map(chapter);
     }
 
     public void deleteChapter(String id) {

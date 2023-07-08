@@ -5,9 +5,10 @@ import lombok.Data;
 import java.util.Set;
 
 @Data
-public class SubChapterDto extends IncomeSubChapterDto {
+public class SubChapterDisplayDto {
 
     private String id;
+    private String name;
     private String chapterId;
-    private Set<TaskDto> tasks;
+    private Set<TaskDisplayDto> tasks;
 }

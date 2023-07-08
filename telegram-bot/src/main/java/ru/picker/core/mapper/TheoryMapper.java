@@ -1,13 +1,10 @@
 package ru.picker.core.mapper;
 
-import org.mapstruct.Context;
-import org.mapstruct.InjectionStrategy;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 import ru.picker.core.entity.Theory;
 import ru.picker.core.model.IncomeTheoryDto;
-import ru.picker.core.model.TheoryDto;
+import ru.picker.core.model.TheoryDisplayDto;
 import ru.picker.core.service.ChapterService;
 import ru.picker.core.service.TheoryService;
 
@@ -16,6 +13,7 @@ import java.util.UUID;
 
 @Mapper(componentModel = "spring",
         injectionStrategy = InjectionStrategy.FIELD,
+        collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED,
         imports = {UUID.class},
         uses = {ChapterService.class, TheoryService.class})
 public interface TheoryMapper {
@@ -27,7 +25,7 @@ public interface TheoryMapper {
     Theory map(IncomeTheoryDto incomeTheoryDto, @Context ChapterService chapterService);
 
     @Mapping(target = "chapterId", source = "theory.chapter.id")
-    TheoryDto map(Theory theory);
+    TheoryDisplayDto map(Theory theory);
 
-    Set<TheoryDto> map(Set<Theory> theories);
+    Set<TheoryDisplayDto> map(Set<Theory> theories);
 }

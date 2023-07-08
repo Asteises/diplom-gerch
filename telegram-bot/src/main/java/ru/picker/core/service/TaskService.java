@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.picker.core.entity.Task;
 import ru.picker.core.mapper.TaskMapper;
 import ru.picker.core.model.IncomeTaskDto;
-import ru.picker.core.model.TaskDto;
+import ru.picker.core.model.TaskDisplayDto;
 import ru.picker.core.repository.TaskRepository;
 
 import javax.ws.rs.NotFoundException;
@@ -18,7 +18,7 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
 
-    public TaskDto add(IncomeTaskDto incomeTaskDto) {
+    public TaskDisplayDto add(IncomeTaskDto incomeTaskDto) {
         Task task = TaskMapper.INSTANCE.map(
                 incomeTaskDto,
                 this);
@@ -26,7 +26,7 @@ public class TaskService {
         return TaskMapper.INSTANCE.map(task);
     }
 
-    public TaskDto get(String id) {
+    public TaskDisplayDto get(String id) {
         Task task = findById(id);
         return TaskMapper.INSTANCE.map(task);
     }
