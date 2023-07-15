@@ -10,16 +10,16 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.UUID;
 import ru.picker.core.entity.Customer;
-import ru.picker.core.service.CustomerService;
+import ru.picker.core.service.impl.CustomerServiceImpl;
 
 @Slf4j
 public class StartCommand extends ServiceCommand {
 
-    private final CustomerService customerService;
+    private final CustomerServiceImpl customerServiceImpl;
 
-    public StartCommand(String commandIdentifier, String description, CustomerService customerService) {
+    public StartCommand(String commandIdentifier, String description, CustomerServiceImpl customerServiceImpl) {
         super(commandIdentifier, description);
-        this.customerService = customerService;
+        this.customerServiceImpl = customerServiceImpl;
     }
 
     @SneakyThrows
@@ -42,12 +42,12 @@ public class StartCommand extends ServiceCommand {
     }
 
     private void registerCustomer(User user, Chat chat) {
-        if (customerService.findById(chat.getId()) == null) {
+        if (customerServiceImpl.findById(chat.getId()) == null) {
             Customer customer = new Customer();
             customer.setChatId(chat.getId());
             customer.setName(user.getUserName());
             customer.setId(UUID.randomUUID());
-            customerService.save(customer);
+            customerServiceImpl.save(customer);
         }
     }
 

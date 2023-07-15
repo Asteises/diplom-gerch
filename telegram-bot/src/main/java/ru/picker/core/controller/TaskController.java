@@ -5,8 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.picker.core.model.IncomeTaskDto;
 import ru.picker.core.model.TaskDisplayDto;
-import ru.picker.core.service.TaskService;
+import ru.picker.core.service.impl.TaskServiceImpl;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
@@ -14,32 +15,32 @@ import java.util.List;
 @RequestMapping("api/bot/task")
 public class TaskController {
 
-    private final TaskService taskService;
+    private final TaskServiceImpl taskServiceImpl;
 
     @PostMapping("/add")
-    public ResponseEntity<TaskDisplayDto> addTask(@RequestBody IncomeTaskDto incomeTaskDto) {
-        return ResponseEntity.ok(taskService.add(incomeTaskDto));
+    public ResponseEntity<TaskDisplayDto> addTask(@RequestBody @NotNull IncomeTaskDto incomeTaskDto) {
+        return ResponseEntity.ok(taskServiceImpl.addTask(incomeTaskDto));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<TaskDisplayDto> getTask(@PathVariable String id) {
-        return ResponseEntity.ok(taskService.get(id));
+        return ResponseEntity.ok(taskServiceImpl.getTaskById(id));
     }
 
     @GetMapping("/all")
     public ResponseEntity<List<TaskDisplayDto>> getAll() {
-        return ResponseEntity.ok(taskService.getAll());
+        return ResponseEntity.ok(taskServiceImpl.getAll());
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<TaskDisplayDto> putTask(@PathVariable String id,
-                                                  @RequestBody IncomeTaskDto incomeTaskDto) {
-        return ResponseEntity.ok(taskService.put(id, incomeTaskDto));
+                                                  @RequestBody @NotNull IncomeTaskDto incomeTaskDto) {
+        return ResponseEntity.ok(taskServiceImpl.put(id, incomeTaskDto));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteTask(@PathVariable String id) {
-        taskService.delete(id);
+        taskServiceImpl.delete(id);
         return ResponseEntity.ok(String.format("Task with ID: %s deleted", id));
     }
 }

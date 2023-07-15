@@ -7,10 +7,10 @@ import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import ru.picker.Bot;
-import ru.picker.core.service.ChapterService;
-import ru.picker.core.service.CustomerService;
-import ru.picker.core.service.SubChapterService;
-import ru.picker.core.service.TaskService;
+import ru.picker.core.service.impl.ChapterServiceImpl;
+import ru.picker.core.service.impl.CustomerServiceImpl;
+import ru.picker.core.service.impl.SubChapterServiceImpl;
+import ru.picker.core.service.impl.TaskServiceImpl;
 
 @Configuration
 public class TelegramBotConfiguration {
@@ -19,11 +19,11 @@ public class TelegramBotConfiguration {
     public Bot telegramBot(
         @Value("${bot.name}") String name,
         @Value("${bot.token}") String token,
-        CustomerService customerService,
-        ChapterService chapterService,
-        SubChapterService subChapterService,
-        TaskService taskService) {
-        return new Bot(token, name, customerService, chapterService, subChapterService, taskService);
+        CustomerServiceImpl customerServiceImpl,
+        ChapterServiceImpl chapterServiceImpl,
+        SubChapterServiceImpl subChapterServiceImpl,
+        TaskServiceImpl taskServiceImpl) {
+        return new Bot(token, name, customerServiceImpl, chapterServiceImpl, subChapterServiceImpl, taskServiceImpl);
     }
 
     @Bean

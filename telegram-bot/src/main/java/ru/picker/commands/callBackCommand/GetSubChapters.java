@@ -2,10 +2,8 @@ package ru.picker.commands.callBackCommand;
 
 import lombok.RequiredArgsConstructor;
 import ru.picker.commands.TeleCommand;
-import ru.picker.core.entity.SubChapter;
-import ru.picker.core.entity.Task;
-import ru.picker.core.service.ChapterService;
-import ru.picker.core.service.SubChapterService;
+import ru.picker.core.model.SubChapterDisplayDto;
+import ru.picker.core.service.impl.ChapterServiceImpl;
 import ru.picker.utils.TeleDto;
 
 import java.util.stream.Collectors;
@@ -13,7 +11,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class GetSubChapters implements TeleCommand {
 
-    private final ChapterService service;
+    private final ChapterServiceImpl service;
 
     @Override
     public TeleDto execute(String theme) {
@@ -21,7 +19,7 @@ public class GetSubChapters implements TeleCommand {
         teleDto.setCallBack("task");
         teleDto.setList(service.getSubChaptersByTheme(theme)
             .stream()
-            .map(SubChapter::getName)
+            .map(SubChapterDisplayDto::getName)
             .collect(Collectors.toList()));
         return teleDto;
     }
