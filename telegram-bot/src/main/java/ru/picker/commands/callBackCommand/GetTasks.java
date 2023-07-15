@@ -3,7 +3,7 @@ package ru.picker.commands.callBackCommand;
 import lombok.RequiredArgsConstructor;
 import ru.picker.commands.TeleCommand;
 import ru.picker.core.entity.Task;
-import ru.picker.core.service.SubChapterService;
+import ru.picker.core.service.impl.SubChapterServiceImpl;
 import ru.picker.utils.TeleDto;
 
 import java.util.stream.Collectors;
@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class GetTasks implements TeleCommand {
 
-    private final SubChapterService service;
+    private final SubChapterServiceImpl service;
 
     @Override
     public TeleDto execute(String theme) {

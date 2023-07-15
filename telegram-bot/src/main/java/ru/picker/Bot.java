@@ -10,12 +10,12 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import ru.picker.commands.CommandMap;
 import ru.picker.commands.StartCommand;
-import ru.picker.core.entity.Chapter;
 import ru.picker.core.entity.Task;
-import ru.picker.core.service.ChapterService;
-import ru.picker.core.service.CustomerService;
-import ru.picker.core.service.SubChapterService;
-import ru.picker.core.service.TaskService;
+import ru.picker.core.model.ChapterDisplayDto;
+import ru.picker.core.service.impl.ChapterServiceImpl;
+import ru.picker.core.service.impl.CustomerServiceImpl;
+import ru.picker.core.service.impl.SubChapterServiceImpl;
+import ru.picker.core.service.impl.TaskServiceImpl;
 import ru.picker.utils.TeleDto;
 
 import java.util.ArrayList;
@@ -29,25 +29,25 @@ public class Bot extends TelegramLongPollingCommandBot {
     private final String token;
     private final String name;
 
-    private final ChapterService chapterService;
+    private final ChapterServiceImpl chapterServiceImpl;
     private final CommandMap commandMap;
-    private final TaskService taskService;
+    private final TaskServiceImpl taskServiceImpl;
 
     private final HashMap<Long, String> taskMap = new HashMap<>();
 
     public Bot(String token,
                String name,
-               CustomerService customerService,
-               ChapterService chapterService,
-               SubChapterService subChapterService,
-               TaskService taskService) {
+               CustomerServiceImpl customerServiceImpl,
+               ChapterServiceImpl chapterServiceImpl,
+               SubChapterServiceImpl subChapterServiceImpl,
+               TaskServiceImpl taskServiceImpl) {
         super();
-        register(new StartCommand("start", "Start command", customerService));
+        register(new StartCommand("start", "Start command", customerServiceImpl));
         this.name = name;
         this.token = token;
-        this.chapterService = chapterService;
-        this.taskService = taskService;
-        commandMap = new CommandMap(chapterService, subChapterService, taskService);
+        this.chapterServiceImpl = chapterServiceImpl;
+        this.taskServiceImpl = taskServiceImpl;
+        commandMap = new CommandMap(chapterServiceImpl, subChapterServiceImpl, taskServiceImpl);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class Bot extends TelegramLongPollingCommandBot {
             } else {
                 //String taskName = data[1].split("-")[1];
                 taskMap.put(callbackQuery.getMessage().getChatId(), data[0]);
-                Task task = taskService.getTaskByName(data[0]);
+                Task task = taskServiceImpl.getTaskByName(data[0]);
                 message.setText("Вместо многоточия укажите ваши ответы." +
                         " Каждый ответ на новой строке в соответствии с заданием\n\n" + task.getTest());
 
@@ -87,14 +87,14 @@ public class Bot extends TelegramLongPollingCommandBot {
             execute(message);
         } else if (taskMap.get(update.getMessage().getChatId()) != null) {
             message.setChatId(update.getMessage().getChatId());
-            Task task = taskService.getTaskByName(taskMap.get(update.getMessage().getChatId()));
+            Task task = taskServiceImpl.getTaskByName(taskMap.get(update.getMessage().getChatId()));
             if (checkAnswers(task, update.getMessage().getText())) {
                 message.setText("Задание выполнено верно!\uD83E\uDD73");
             } else {
                 message.setText("Задание выполнено с ошибками!\uD83D\uDE14");
             }
-            message.setReplyMarkup(getButtons(chapterService.getAllChapters().stream()
-                            .map(Chapter::getName)
+            message.setReplyMarkup(getButtons(chapterServiceImpl.getAllChapters().stream()
+                            .map(ChapterDisplayDto::getName)
                             .collect(Collectors.toList()),
                     "subChapter"));
             taskMap.put(update.getMessage().getChatId(), null);
@@ -103,8 +103,8 @@ public class Bot extends TelegramLongPollingCommandBot {
             message.setText("Выберите раздел");
             message.setChatId(update.getMessage().getChatId());
             message.setReplyMarkup(
-                    getButtons(chapterService.getAllChapters().stream()
-                                    .map(Chapter::getName)
+                    getButtons(chapterServiceImpl.getAllChapters().stream()
+                                    .map(ChapterDisplayDto::getName)
                                     .collect(Collectors.toList()),
                             "subChapter"));
             execute(message);
