@@ -2,16 +2,15 @@ package ru.picker.core.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 import ru.picker.core.entity.SubChapter;
 import ru.picker.core.mapper.SubChapterMapper;
 import ru.picker.core.model.IncomeSubChapterDto;
-import ru.picker.core.model.SubChapterDto;
+import ru.picker.core.model.SubChapterDisplayDto;
 import ru.picker.core.service.SubChapterService;
-import ru.picker.core.service.TaskService;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,35 +18,33 @@ import java.util.UUID;
 public class SubChapterController {
 
     private final SubChapterService subChapterService;
-    private final TaskService taskService;
 
     @PostMapping("/add")
-    public ResponseEntity<SubChapterDto> addSubChapter(@RequestBody IncomeSubChapterDto incomeSubChapterDto) {
-        SubChapter subChapter = subChapterService.add(incomeSubChapterDto);
-        return ResponseEntity.ok(SubChapterMapper.INSTANCE.map(subChapter, taskService));
+    public ResponseEntity<SubChapterDisplayDto> addSubChapter(@RequestBody IncomeSubChapterDto incomeSubChapterDto) {
+        return ResponseEntity.ok(subChapterService.add(incomeSubChapterDto));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SubChapterDto> getById(@PathVariable UUID id) {
-        SubChapter subChapter = subChapterService.findById(id);
-        return ResponseEntity.ok(SubChapterMapper.INSTANCE.map(subChapter, taskService));
+    public ResponseEntity<SubChapterDisplayDto> getById(@PathVariable String id) {
+        SubChapterDisplayDto subChapterDisplayDto = subChapterService.get(id);
+        return ResponseEntity.ok(subChapterDisplayDto);
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<SubChapterDto>> getAllSubChapters() {
+    public ResponseEntity<List<SubChapterDisplayDto>> getAllSubChapters() {
         List<SubChapter> subChapters = subChapterService.findAll().stream().toList();
         return ResponseEntity.ok(SubChapterMapper.INSTANCE.map(subChapters));
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<SubChapterDto> patchSubChapter(@PathVariable UUID id,
-                                                         @RequestBody IncomeSubChapterDto incomeSubChapterDto) {
-        SubChapterDto subChapterDto = subChapterService.renewSubChapter(id, incomeSubChapterDto);
-        return ResponseEntity.ok(subChapterDto);
+    @PutMapping("/{id}")
+    public ResponseEntity<SubChapterDisplayDto> putSubChapter(@PathVariable String id,
+                                                              @RequestBody IncomeSubChapterDto incomeSubChapterDto) {
+        SubChapterDisplayDto subChapterDisplayDto = subChapterService.renewSubChapter(id, incomeSubChapterDto);
+        return ResponseEntity.ok(subChapterDisplayDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteSubChapter(@PathVariable UUID id) {
+    public ResponseEntity<String> deleteSubChapter(@PathVariable String id) {
         subChapterService.deleteSubChapter(id);
         return ResponseEntity.ok(String.format("SubChapter with ID: %s deleted", id));
     }

@@ -39,10 +39,7 @@ public class SubChapter {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SubChapter that = (SubChapter) o;
-        return id.equals(that.id)
-                && Objects.equals(name, that.name)
-                && Objects.equals(chapter, that.chapter)
-                && Objects.equals(tasks, that.tasks);
+        return id.equals(that.id);
     }
 
     @Override

@@ -1,17 +1,12 @@
 package ru.picker.core.model;
 
-import lombok.*;
+import lombok.Data;
+import ru.picker.core.entity.Chapter;
 
-import java.util.UUID;
-
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
+@Data
 public class IncomeTheoryDto {
 
     private String name;
     private String info;
-    private UUID chapterId;
+    private Chapter chapter;
 }

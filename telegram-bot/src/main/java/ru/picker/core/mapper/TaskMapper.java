@@ -1,34 +1,34 @@
 package ru.picker.core.mapper;
 
-import org.mapstruct.Context;
+import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 import ru.picker.core.entity.Task;
 import ru.picker.core.model.IncomeTaskDto;
-import ru.picker.core.model.TaskDto;
-import ru.picker.core.service.SubChapterService;
-import ru.picker.core.service.TaskService;
+import ru.picker.core.model.TaskDisplayDto;
 
 import javax.ws.rs.NotFoundException;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 @Mapper(componentModel = "spring",
         injectionStrategy = InjectionStrategy.FIELD,
-        imports = {UUID.class},
-        uses = {TaskService.class, SubChapterService.class})
+        collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED,
+        imports = {UUID.class})
 public interface TaskMapper {
 
     TaskMapper INSTANCE = Mappers.getMapper(TaskMapper.class);
 
     @Mapping(target = "id", expression = "java(UUID.randomUUID())")
-    @Mapping(target = "subChapter", expression = "java(subChapterService.findById(incomeTaskDto.getSubChapterId()))")
-    Task map(IncomeTaskDto incomeTaskDto, @Context TaskService taskService, @Context SubChapterService subChapterService) throws NotFoundException;
+    Task map(IncomeTaskDto incomeTaskDto) throws NotFoundException;
 
-    @Mapping(target = "subChapterId", source = "task.subChapter.id")
-    TaskDto map(Task task);
+    @Mapping(target = "subChapterId", source = "subChapter.id")
+    TaskDisplayDto map(Task task);
 
-    Set<TaskDto> map(Set<Task> tasks);
+    Set<TaskDisplayDto> map(Set<Task> tasks);
+
+    List<TaskDisplayDto> map(List<Task> tasks);
 }

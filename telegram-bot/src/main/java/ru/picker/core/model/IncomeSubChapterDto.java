@@ -1,16 +1,14 @@
 package ru.picker.core.model;
 
-import lombok.*;
+import lombok.Data;
+import ru.picker.core.entity.Chapter;
 
-import java.util.UUID;
+import javax.validation.constraints.NotNull;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
+@Data
 public class IncomeSubChapterDto {
 
     private String name;
-    private UUID chapterId;
+    @NotNull
+    private Chapter chapter;
 }

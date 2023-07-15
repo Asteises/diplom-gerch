@@ -1,12 +1,8 @@
 package ru.picker.core.model;
 
-import lombok.*;
+import lombok.Data;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
+@Data
 public class IncomeChapterDto {
 
     private String name;

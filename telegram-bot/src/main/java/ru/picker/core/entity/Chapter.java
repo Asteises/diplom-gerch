@@ -38,10 +38,7 @@ public class Chapter {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Chapter chapter = (Chapter) o;
-        return id.equals(chapter.id)
-                && Objects.equals(name, chapter.name)
-                && Objects.equals(subChapters, chapter.subChapters)
-                && Objects.equals(theories, chapter.theories);
+        return id.equals(chapter.id);
     }
 
     @Override
